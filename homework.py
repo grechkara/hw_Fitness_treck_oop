@@ -90,8 +90,8 @@ class Running(Training):
         spent_calories: float
         coef_cal_1: int = 18
         coef_cal_2: int = 20
-        spent_calories = ((coef_cal_1 * self.get_mean_speed() - coef_cal_2) *
-                          self.weight / self.M_IN_KM * (self.duration * 60))
+        spent_calories = ((coef_cal_1 * self.get_mean_speed() - coef_cal_2)
+                          * self.weight / self.M_IN_KM * (self.duration * 60))
         return spent_calories
 
 
