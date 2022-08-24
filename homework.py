@@ -13,6 +13,7 @@ class InfoMessage:
     calories: float
 
     def get_message(self) -> str:
+        """Возвращает строку с информацией о тренировке"""
         message: str = ('Тип тренировки: {0};'
                         ' Длительность: {1:.3f} ч.;'
                         ' Дистанция: {2:.3f} км;'
