@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from typing import Dict, List, Tuple, Union
+from dataclasses import asdict, dataclass
+from typing import Dict, List, Tuple, Type
 
 
 @dataclass
@@ -14,15 +14,12 @@ class InfoMessage:
 
     def get_message(self) -> str:
         """Возвращает строку с информацией о тренировке"""
-        message: str = ('Тип тренировки: {0};'
-                        ' Длительность: {1:.3f} ч.;'
-                        ' Дистанция: {2:.3f} км;'
-                        ' Ср. скорость: {3:.3f} км/ч;'
-                        ' Потрачено ккал: {4:.3f}.').format(self.training_type,
-                                                            self.duration,
-                                                            self.distance,
-                                                            self.speed,
-                                                            self.calories)
+        message: str = ('Тип тренировки: {training_type};'
+                        ' Длительность: {duration:.3f} ч.;'
+                        ' Дистанция: {distance:.3f} км;'
+                        ' Ср. скорость: {speed:.3f} км/ч;'
+                        ' Потрачено ккал: {calories:.3f}.'
+                        ).format(**asdict(self))
         return message
 
 
@@ -109,7 +106,7 @@ class Swimming(Training):
     count_pool: int
     LEN_STEP: float = 1.38
     coef_cal_1: float = 1.1
-    coef_cal_2: float = 2
+    coef_cal_2: int = 2
 
     def __init__(self,
                  action: int,
@@ -133,7 +130,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    type_training: Dict[str, Union[Swimming, Running, SportsWalking]] = {
+    type_training: Dict[str, Type(Training)] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking,
@@ -149,7 +146,7 @@ def main(training: Training) -> None:
 
 if __name__ == '__main__':
     packages: Tuple[str, List[int]] = [
-        ('SWM', [720, 1, 80, 25, 40]),  # action, duration (hours), weight
+        ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
     ]
